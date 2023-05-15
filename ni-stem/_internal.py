@@ -49,7 +49,7 @@ def _checkAvailableAacEncoders():
     output = subprocess.check_output([_findCmd("ffmpeg"), "-v", "error", "-codecs"])
     aac_codecs = [
         x for x in
-        output.splitlines() if "AAC (Advanced Audio Coding)" in str(x)
+        output.splitlines() if "aac" in str(x)
     ][0]
     hay = aac_codecs.decode('ascii')
     match = re.findall(r'\(encoders: ([^\)]*) \)', hay)
@@ -162,7 +162,7 @@ class StemCreator:
                     if aacCodec == 'aac_at':
                         converterArgs.extend(["-q:a", "0"])
                     elif aacCodec == 'libfdk_aac':
-                        converterArgs.extend(["-vbr", "5"])
+                        converterArgs.extend(["-b:a", "320k"])
                         # converterArgs.extend(["-cutoff", "20000"])
                     converterArgs.extend(["-c:v", "copy"])
                     # If the sample rate is superior to 48kHz, we need to downsample to 48kHz
