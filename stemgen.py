@@ -17,7 +17,7 @@ LOGO = r"""
 
 """
 
-SUPPORTED_FILES = ['.wave', '.wav', '.aiff', '.aif', '.flac']
+SUPPORTED_FILES = ['.wave', '.wav', '.aiff', '.aif', '.flac', '.mp3']
 REQUIRED_PACKAGES = ['ffmpeg', 'sox']
 
 USAGE = f"""{LOGO}
@@ -34,8 +34,8 @@ parser.add_argument('-i', dest='INPUT_PATH', required=True,
                     help='the path to the input file')
 parser.add_argument('-o', dest='OUTPUT_PATH', default='output',
                     help='the path to the output folder')
-parser.add_argument('-f', dest='FORMAT', default='alac',
-                    help='aac or alac')
+parser.add_argument('-f', dest='FORMAT', default='alac', help='aac or alac')
+parser.add_argument('-d', '--demucs_version', default='htdemucs_ft', help='htdemucs or htdemucs_ft')
 parser.add_argument('-v', '--version', action='version', version=VERSION)
 args = parser.parse_args()
 
@@ -44,6 +44,7 @@ OUTPUT_PATH = args.OUTPUT_PATH
 FORMAT = args.FORMAT
 DIR = Path(__file__).parent.absolute()
 PYTHON_EXEC = sys.executable if not None else "python3"
+DEMUCS_VERSION = args.demucs_version
 
 def cd_root():
     os.chdir(DIR)
@@ -191,10 +192,10 @@ def split_stems():
 
     if BIT_DEPTH == 24:
         print("Using 24-bit model...")
-        subprocess.run([PYTHON_EXEC, "-m", "demucs", "--int24", "-n", "htdemucs", "-d", "cpu", FILE_PATH, "-o", f"{OUTPUT_PATH}/{FILE_NAME}"])
+        subprocess.run([PYTHON_EXEC, "-m", "demucs", "--int24", "-n", DEMUCS_VERSION, FILE_PATH, "-o", f"{OUTPUT_PATH}/{FILE_NAME}"])
     else:
         print("Using 16-bit model...")
-        subprocess.run([PYTHON_EXEC, "-m", "demucs", "-n", "htdemucs", "-d", "cpu", FILE_PATH, "-o", f"{OUTPUT_PATH}/{FILE_NAME}"])
+        subprocess.run([PYTHON_EXEC, "-m", "demucs", "-n", DEMUCS_VERSION, FILE_PATH, "-o", f"{OUTPUT_PATH}/{FILE_NAME}"])
 
     print("Done.")
 
@@ -203,10 +204,10 @@ def create_stem():
     cd_root()
 
     stem_args = [PYTHON_EXEC, "ni-stem/ni-stem", "create", "-s"]
-    stem_args += [f"{OUTPUT_PATH}/{FILE_NAME}/htdemucs/{FILE_NAME}/drums.wav",
-                  f"{OUTPUT_PATH}/{FILE_NAME}/htdemucs/{FILE_NAME}/bass.wav",
-                  f"{OUTPUT_PATH}/{FILE_NAME}/htdemucs/{FILE_NAME}/other.wav",
-                  f"{OUTPUT_PATH}/{FILE_NAME}/htdemucs/{FILE_NAME}/vocals.wav"]
+    stem_args += [f"{OUTPUT_PATH}/{FILE_NAME}/{DEMUCS_VERSION}/{FILE_NAME}/drums.wav",
+                  f"{OUTPUT_PATH}/{FILE_NAME}/{DEMUCS_VERSION}/{FILE_NAME}/bass.wav",
+                  f"{OUTPUT_PATH}/{FILE_NAME}/{DEMUCS_VERSION}/{FILE_NAME}/other.wav",
+                  f"{OUTPUT_PATH}/{FILE_NAME}/{DEMUCS_VERSION}/{FILE_NAME}/vocals.wav"]
     stem_args += ["-x", f"{OUTPUT_PATH}/{FILE_NAME}/{FILE_NAME}.wav", "-t", f"{OUTPUT_PATH}/{FILE_NAME}/tags.json",
                   "-m", "metadata.json", "-f", FORMAT]
 
