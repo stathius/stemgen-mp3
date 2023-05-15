@@ -17,7 +17,7 @@ _windows = platform.system() == "Windows"
 _linux = platform.system() == "Linux"
 
 _supported_files_no_conversion = [".m4a", ".mp4", ".m4p"]
-_supported_files_conversion = [".wav", ".wave", ".aif", ".aiff", ".flac"]
+_supported_files_conversion = [".wav", ".wave", ".aif", ".aiff", ".flac", ".mp3"]
 
 def _removeFile(path):
     if os.path.lexists(path):
