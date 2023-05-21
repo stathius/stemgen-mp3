@@ -20,3 +20,7 @@ stemgen-droplet.app
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+*.m4a
+*.mp3
+*.mp4
