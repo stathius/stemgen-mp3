@@ -24,3 +24,5 @@ __pycache__/
 *.m4a
 *.mp3
 *.mp4
+*.bin
+*.ipynb
