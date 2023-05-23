@@ -34,7 +34,7 @@ parser.add_argument('-i', dest='INPUT_PATH', required=True,
                     help='the path to the input file')
 parser.add_argument('-o', dest='OUTPUT_PATH', default='output',
                     help='the path to the output folder')
-parser.add_argument('-f', dest='FORMAT', default='alac', help='aac or alac')
+parser.add_argument('-f', dest='FORMAT', default='aac', help='aac or alac')
 parser.add_argument('-d', '--demucs_version', default='htdemucs_ft', help='htdemucs or htdemucs_ft')
 parser.add_argument('-v', '--version', action='version', version=VERSION)
 args = parser.parse_args()
