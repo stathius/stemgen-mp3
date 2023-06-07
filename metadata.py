@@ -37,6 +37,7 @@ def get_metadata(DIR, FILE_PATH, OUTPUT_PATH, FILE_NAME):
     # Extract metadata with mutagen
     file = mutagen.File(FILE_PATH)
     if file.tags is not None:
+        # print(file.tags.keys())
         print(file.tags.pprint())
 
     TAGS = {}
@@ -190,6 +191,8 @@ def get_metadata(DIR, FILE_PATH, OUTPUT_PATH, FILE_NAME):
         TAGS["comment"] = file["COMM"].text[0]
     if "COMMENT" in file:
         TAGS["comment"] = file["COMMENT"][0]
+    if "COMM::eng" in file:
+        TAGS["comment"] = file["COMM::eng"].text[0]
     
     # `description`
     if "TXXX:DESCRIPTION" in file:
