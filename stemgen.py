@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import glob
 import shutil
 import sys
 import subprocess
@@ -39,7 +40,7 @@ parser.add_argument('-d', '--demucs_version', default='htdemucs_ft', help='htdem
 parser.add_argument('-v', '--version', action='version', version=VERSION)
 args = parser.parse_args()
 
-INPUT_PATH = args.INPUT_PATH
+INPUT_PATH_MAIN = args.INPUT_PATH
 OUTPUT_PATH = args.OUTPUT_PATH
 FORMAT = args.FORMAT
 DIR = Path(__file__).parent.absolute()
@@ -221,6 +222,13 @@ def clean_dir():
 
     print("Done.")
 
-cd_root()
-setup()
-run()
+if os.path.isdir(INPUT_PATH_MAIN):
+    input_files = glob.glob(INPUT_PATH_MAIN + "/*.mp3")
+else:
+    input_files = [INPUT_PATH_MAIN]
+
+for input_file in input_files:
+    INPUT_PATH = input_file
+    cd_root()
+    setup()
+    run()
